@@ -1,46 +1,136 @@
-.container {
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 40px;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  width: 300px;
+/* src/pages/Auth/Login.module.css */
+
+.pageContainer {
+  /* 전체 페이지 중앙 정렬 */
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin: 0 auto; /* 중앙 정렬 */
-  color: white;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #0d1117; /* GitHub Dark bg */
+  padding: 24px;
+  color: #c9d1d9;
 }
 
-.title {
-  margin-bottom: 10px;
+.logoArea {
   text-align: center;
+  margin-bottom: 24px;
+}
+
+.pageTitle {
+  font-size: 24px;
+  font-weight: 300;
+  margin: 0;
+  color: #c9d1d9;
+}
+
+/* 로그인 카드 박스 */
+.loginBox {
+  background-color: #161b22; /* Card bg */
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 24px;
+  width: 100%;
+  max-width: 308px; /* GitHub login box width */
+  margin-bottom: 16px;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 16px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.labelRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 400;
+  color: #c9d1d9;
+}
+
+.forgotPassword {
+  font-size: 12px;
+  color: #58a6ff;
+  cursor: pointer;
 }
 
 .input {
-  padding: 12px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 16px;
+  padding: 5px 12px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #c9d1d9;
+  background-color: #0d1117; /* Input bg */
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  outline: none;
+  transition: 0.2s;
+  height: 32px; /* GitHub input height */
+  box-sizing: border-box;
 }
 
+.input:focus {
+  border-color: #58a6ff;
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.3);
+}
+
+/* 초록색 버튼 */
 .button {
-  padding: 12px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #61dafb;
-  color: #282c34;
-  font-size: 16px;
-  font-weight: bold;
+  margin-top: 4px;
+  padding: 5px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  color: white;
+  background-color: #238636; /* GitHub Green */
+  border: 1px solid rgba(240, 246, 252, 0.1);
+  border-radius: 6px;
   cursor: pointer;
-  transition: opacity 0.2s;
+  width: 100%;
+  height: 32px;
+  transition: 0.2s;
 }
 
 .button:hover {
-  opacity: 0.9;
+  background-color: #2ea043;
+  border-color: rgba(240, 246, 252, 0.1);
+}
+
+.button:disabled {
+  background-color: #238636;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 하단 텍스트 */
+.footerText {
+  padding: 16px;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  width: 100%;
+  max-width: 308px;
+  text-align: center;
+  font-size: 14px;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.link {
+  color: #58a6ff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.link:hover {
+  text-decoration: underline;
 }
