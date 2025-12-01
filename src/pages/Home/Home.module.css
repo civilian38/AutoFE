@@ -1,0 +1,35 @@
+.container {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  color: white;
+  min-width: 300px;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.primaryBtn, .secondaryBtn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.primaryBtn {
+  background-color: #61dafb;
+  color: #282c34;
+}
+
+.secondaryBtn {
+  background-color: #ff6b6b;
+  color: white;
+}
