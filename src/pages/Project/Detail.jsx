@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ApiDocList from './components/ApiDocList';
+import RequirementsView from './components/RequirementsView'; // Import 추가
 import styles from './Detail.module.css';
 
 const ProjectDetail = () => {
@@ -10,13 +11,12 @@ const ProjectDetail = () => {
   // 현재 활성화된 탭 State (기본값: api_docs)
   const [activeTab, setActiveTab] = useState('api_docs');
 
-  // 프로젝트 기본 정보 (추후 API 연동 필요, 현재는 UI 표시용 더미 데이터 혹은 상위에서 가져왔다고 가정)
+  // 프로젝트 기본 정보 (추후 API 연동 필요)
   const [projectInfo, setProjectInfo] = useState({
     name: `Project #${projectId}`,
     description: 'Loading project details...'
   });
 
-  // 탭 변경 핸들러
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
   };
@@ -64,7 +64,9 @@ const ProjectDetail = () => {
       {/* Content Area */}
       <main className={styles.contentArea}>
         {activeTab === 'api_docs' && <ApiDocList projectId={projectId} />}
-        {activeTab === 'requirements' && <div className={styles.placeholder}>프론트엔드 요구사항 관리 페이지 (개발 예정)</div>}
+        {/* Requirements 탭 구현 연결 */}
+        {activeTab === 'requirements' && <RequirementsView projectId={projectId} />}
+
         {activeTab === 'react_files' && <div className={styles.placeholder}>React 파일 생성 및 관리 페이지 (개발 예정)</div>}
         {activeTab === 'discussion' && <div className={styles.placeholder}>Discussion 페이지 (개발 예정)</div>}
       </main>
