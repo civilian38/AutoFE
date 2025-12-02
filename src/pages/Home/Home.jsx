@@ -30,7 +30,7 @@ const Home = () => {
   };
 
   const handleNewProject = () => {
-    alert("새 프로젝트 생성 페이지로 이동 (구현 예정)");
+      navigate('/project/create');
   };
 
   const handleStarClick = () => {

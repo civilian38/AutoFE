@@ -1,0 +1,145 @@
+.container {
+  display: flex;
+  justify-content: center;
+  padding-top: 48px;
+  min-height: 100vh;
+  background-color: #0d1117;
+  color: #c9d1d9;
+  box-sizing: border-box;
+}
+
+.formWrapper {
+  width: 100%;
+  max-width: 800px; /* GitHub create page width style */
+  padding: 0 16px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 8px;
+  color: #c9d1d9;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #8b949e;
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.divider {
+  border: 0;
+  border-bottom: 1px solid #21262d;
+  margin: 16px 0;
+}
+
+.form {
+  margin-top: 24px;
+}
+
+.inputGroup {
+  margin-bottom: 24px;
+}
+
+.label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.required {
+  color: #ff7b72; /* Error red for asterisk */
+}
+
+.optional {
+  color: #8b949e;
+  font-weight: 400;
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+.input {
+  width: 100%;
+  padding: 5px 12px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #c9d1d9;
+  vertical-align: middle;
+  background-color: #0d1117;
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  box-shadow: 0 0 transparent;
+  transition: 80ms cubic-bezier(0.33, 1, 0.68, 1);
+  box-sizing: border-box;
+  height: 32px;
+}
+
+.input:focus {
+  border-color: #58a6ff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.3);
+}
+
+.helpText {
+  margin-top: 6px;
+  margin-bottom: 0;
+  font-size: 12px;
+  color: #8b949e;
+}
+
+.errorMessage {
+  margin-bottom: 16px;
+  padding: 16px;
+  border: 1px solid rgba(248, 81, 73, 0.4);
+  border-radius: 6px;
+  background-color: rgba(248, 81, 73, 0.1);
+  color: #ff7b72;
+  font-size: 14px;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.submitBtn {
+  color: #ffffff;
+  background-color: #238636;
+  border: 1px solid rgba(240, 246, 252, 0.1);
+  border-radius: 6px;
+  padding: 5px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.submitBtn:hover {
+  background-color: #2ea043;
+}
+
+.submitBtn:disabled {
+  background-color: #238636;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancelBtn {
+  color: #c9d1d9;
+  background-color: transparent;
+  border: 0;
+  padding: 5px 16px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.cancelBtn:hover {
+  text-decoration: underline;
+  color: #58a6ff;
+}
