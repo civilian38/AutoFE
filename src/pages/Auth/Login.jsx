@@ -31,7 +31,6 @@ const Login = () => {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.logoArea}>
-        {/* 깃허브 로고 삭제됨 */}
         <h1 className={styles.pageTitle}>Sign in to AutoReact</h1>
       </div>
 
@@ -70,7 +69,8 @@ const Login = () => {
       </div>
 
       <p className={styles.footerText}>
-        New to AutoReact? <span className={styles.link}>Create an account</span>.
+        {/* 회원가입 페이지 이동 로직 추가 */}
+        New to AutoReact? <span className={styles.link} onClick={() => navigate('/register')}>Create an account</span>.
       </p>
     </div>
   );
