@@ -30,7 +30,13 @@ const Home = () => {
   };
 
   const handleNewProject = () => {
-      navigate('/project/create');
+    navigate('/project/create');
+  };
+
+  // [수정됨] 프로젝트 상세 페이지로 이동하는 핸들러 추가
+  const handleProjectClick = (e, projectId) => {
+    e.preventDefault(); // a 태그의 기본 페이지 리로드 방지
+    navigate(`/project/${projectId}`);
   };
 
   const handleStarClick = () => {
@@ -64,21 +70,20 @@ const Home = () => {
       {/* Main Content */}
       <main className={styles.mainContent}>
 
-        {/* Top Controls: Search & New Button ONLY */}
+        {/* Top Controls */}
         <div className={styles.topControls}>
           <div className={styles.searchGroup}>
             <input
               type="text"
-              placeholder="프로젝트 검색 (백엔드 API 연동 필요)"
+              placeholder="프로젝트 검색"
               className={styles.searchInput}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            {/* 필터 버튼 삭제됨 */}
           </div>
           <button className={styles.newProjectBtn} onClick={handleNewProject}>
             <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" fill="currentColor" style={{marginRight: '4px'}}>
-                <path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"></path>
+              <path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"></path>
             </svg>
             New
           </button>
@@ -91,10 +96,12 @@ const Home = () => {
               <li key={project.id} className={styles.projectItem}>
                 <div className={styles.itemLeft}>
                   <div className={styles.titleRow}>
-                    <a href={`/project/${project.id}`} className={styles.projectName} onClick={(e) => {
-                       e.preventDefault();
-                       alert(`[${project.name}] 상세 페이지로 이동 (라우터 연결 필요)`);
-                    }}>
+                    {/* [수정됨] onClick 핸들러 교체 */}
+                    <a
+                      href={`/project/${project.id}`}
+                      className={styles.projectName}
+                      onClick={(e) => handleProjectClick(e, project.id)}
+                    >
                       {project.name}
                     </a>
                     <span className={styles.visibilityBadge}>Private</span>
@@ -110,7 +117,7 @@ const Home = () => {
                 <div className={styles.itemRight}>
                   <button className={styles.starBtn} onClick={handleStarClick}>
                     <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" fill="#8b949e">
-                        <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"></path>
+                      <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"></path>
                     </svg>
                     Star
                   </button>

@@ -1,0 +1,137 @@
+/* src/pages/Project/components/ApiDocList.module.css */
+
+.listContainer {
+  width: 100%;
+}
+
+.listHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.listHeader h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #c9d1d9;
+  margin: 0;
+}
+
+.loading, .emptyState {
+  color: #8b949e;
+  text-align: center;
+  padding: 40px;
+  border: 1px dashed #30363d;
+  border-radius: 6px;
+}
+
+.apiStack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Common Row Style */
+.apiRow {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.03); /* 아주 옅은 배경 */
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.apiRow:hover {
+  opacity: 0.9;
+}
+
+/* Method Badge Style */
+.methodBadge {
+  font-size: 14px;
+  font-weight: 700;
+  min-width: 80px;
+  text-align: center;
+  padding: 6px 0;
+  border-radius: 3px;
+  color: #ffffff;
+  margin-right: 15px;
+  text-transform: uppercase;
+}
+
+.path {
+  flex-grow: 1;
+  font-family: monospace;
+  font-size: 15px;
+  font-weight: 600;
+  color: #c9d1d9;
+  word-break: break-all;
+}
+
+.description {
+  font-size: 13px;
+  color: #8b949e;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.apiName {
+    font-family: monospace;
+}
+
+.lockIcon {
+    opacity: 0.6;
+}
+
+/* --- Color Themes based on Method --- */
+
+/* GET: Blue */
+.get {
+  background-color: rgba(97, 175, 254, 0.1); /* Light Blue bg */
+  border-color: #61affe;
+}
+.get .methodBadge {
+  background-color: #61affe;
+}
+.get .path {
+    color: #c9d1d9;
+}
+
+/* POST: Green */
+.post {
+  background-color: rgba(73, 204, 144, 0.1); /* Light Green bg */
+  border-color: #49cc90;
+}
+.post .methodBadge {
+  background-color: #49cc90;
+}
+
+/* PUT: Orange */
+.put {
+  background-color: rgba(252, 161, 48, 0.1); /* Light Orange bg */
+  border-color: #fca130;
+}
+.put .methodBadge {
+  background-color: #fca130;
+}
+
+/* DELETE: Red */
+.delete {
+  background-color: rgba(249, 62, 62, 0.1); /* Light Red bg */
+  border-color: #f93e3e;
+}
+.delete .methodBadge {
+  background-color: #f93e3e;
+}
+
+/* PATCH: Teal/Cyan */
+.patch {
+  background-color: rgba(80, 227, 194, 0.1); /* Light Teal bg */
+  border-color: #50e3c2;
+}
+.patch .methodBadge {
+  background-color: #50e3c2;
+}
