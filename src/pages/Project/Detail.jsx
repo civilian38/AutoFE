@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ApiDocList from './components/ApiDocList';
-import RequirementsView from './components/RequirementsView'; // Import 추가
+import RequirementsView from './components/RequirementsView';
+import ReactFilesView from './components/ReactFilesView'; // Import 추가
 import styles from './Detail.module.css';
 
 const ProjectDetail = () => {
@@ -64,10 +65,8 @@ const ProjectDetail = () => {
       {/* Content Area */}
       <main className={styles.contentArea}>
         {activeTab === 'api_docs' && <ApiDocList projectId={projectId} />}
-        {/* Requirements 탭 구현 연결 */}
         {activeTab === 'requirements' && <RequirementsView projectId={projectId} />}
-
-        {activeTab === 'react_files' && <div className={styles.placeholder}>React 파일 생성 및 관리 페이지 (개발 예정)</div>}
+        {activeTab === 'react_files' && <ReactFilesView projectId={projectId} />}
         {activeTab === 'discussion' && <div className={styles.placeholder}>Discussion 페이지 (개발 예정)</div>}
       </main>
     </div>
