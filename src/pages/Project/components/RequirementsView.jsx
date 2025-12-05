@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { authApi } from '../../../api/axios';
 import RequirementDetail from './RequirementDetail';
 import styles from './RequirementsView.module.css';
@@ -7,35 +7,54 @@ const RequirementsView = ({ projectId }) => {
   const [reqList, setReqList] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isCreating, setIsCreating] = useState(false); // 생성 모드 상태
 
-  // 리스트 조회
-  useEffect(() => {
-    const fetchList = async () => {
-      try {
-        // [수정됨] API 문서(apidocs)가 아닌 페이지 요구사항(frontpages) 목록을 호출합니다.
-        // URL: /frontpages/{project_id}/
-        const response = await authApi.get(`/frontpages/${projectId}/`);
-        setReqList(response.data || []);
-      } catch (error) {
-        console.error("Failed to fetch requirements list:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (projectId) {
-      fetchList();
+  const fetchList = useCallback(async () => {
+    try {
+      setLoading(true);
+      const response = await authApi.get(`/frontpages/${projectId}/`);
+      setReqList(response.data || []);
+    } catch (error) {
+      console.error("Failed to fetch requirements list:", error);
+    } finally {
+      setLoading(false);
     }
   }, [projectId]);
 
-  if (loading) return <div className={styles.loading}>Loading requirements...</div>;
+  useEffect(() => {
+    if (projectId) {
+      fetchList();
+    }
+  }, [projectId, fetchList]);
+
+  // 새로운 항목 생성 모드 진입
+  const handleCreateStart = () => {
+    setSelectedId(null);
+    setIsCreating(true);
+  };
+
+  // 생성/수정/삭제 완료 후 리스트 갱신 및 선택 처리
+  const handleRefresh = async (newId = null) => {
+    await fetchList();
+    setIsCreating(false);
+    if (newId) {
+      setSelectedId(newId);
+    } else {
+      setSelectedId(null);
+    }
+  };
+
+  if (loading && reqList.length === 0) return <div className={styles.loading}>Loading requirements...</div>;
 
   return (
     <div className={styles.viewContainer}>
       {/* 왼쪽: 리스트 영역 */}
       <div className={styles.listPane}>
         <div className={styles.paneHeader}>
-          Pages List
+          <span>Pages List</span>
+          <button className={styles.createButton} onClick={handleCreateStart}>
+            + New
+          </button>
         </div>
         <div className={styles.listContent}>
           {reqList.length === 0 ? (
@@ -44,8 +63,11 @@ const RequirementsView = ({ projectId }) => {
             reqList.map((item) => (
               <div
                 key={item.id}
-                className={`${styles.listItem} ${selectedId === item.id ? styles.selected : ''}`}
-                onClick={() => setSelectedId(item.id)}
+                className={`${styles.listItem} ${selectedId === item.id && !isCreating ? styles.selected : ''}`}
+                onClick={() => {
+                  setSelectedId(item.id);
+                  setIsCreating(false);
+                }}
               >
                 <div className={styles.itemUrl}>{item.url}</div>
                 <div className={styles.itemStatus}>
@@ -62,11 +84,24 @@ const RequirementsView = ({ projectId }) => {
 
       {/* 오른쪽: 상세 영역 */}
       <div className={styles.detailPane}>
-        {selectedId ? (
-          <RequirementDetail reqId={selectedId} />
+        {isCreating ? (
+          <RequirementDetail
+            projectId={projectId}
+            isNew={true}
+            onRefresh={handleRefresh}
+            onCancel={() => setIsCreating(false)}
+          />
+        ) : selectedId ? (
+          <RequirementDetail
+            key={selectedId} // ID 변경 시 컴포넌트 리마운트
+            reqId={selectedId}
+            projectId={projectId}
+            onRefresh={handleRefresh}
+          />
         ) : (
           <div className={styles.placeholderState}>
-            왼쪽 목록에서 페이지를 선택하여<br/>상세 요구사항을 확인하세요.
+            왼쪽 목록에서 페이지를 선택하거나<br />
+            [+ New] 버튼을 눌러 새 요구사항을 추가하세요.
           </div>
         )}
       </div>
