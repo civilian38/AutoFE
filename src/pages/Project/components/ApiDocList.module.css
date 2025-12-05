@@ -1,5 +1,3 @@
-/* src/pages/Project/components/ApiDocList.module.css */
-
 .listContainer {
   width: 100%;
 }
@@ -18,6 +16,21 @@
   margin: 0;
 }
 
+.createBtn {
+  background-color: #238636;
+  color: #fff;
+  border: 1px solid rgba(240, 246, 252, 0.1);
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.createBtn:hover {
+  background-color: #2ea043;
+}
+
 .loading, .emptyState {
   color: #8b949e;
   text-align: center;
@@ -32,106 +45,73 @@
   gap: 10px;
 }
 
-/* Common Row Style */
-.apiRow {
-  display: flex;
-  align-items: center;
-  padding: 8px 10px;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  background-color: rgba(255, 255, 255, 0.03); /* 아주 옅은 배경 */
-  cursor: pointer;
-  transition: opacity 0.2s;
+/* Create Form Styles */
+.createFormContainer {
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 20px;
+  margin-bottom: 24px;
+  animation: fadeIn 0.3s ease;
 }
 
-.apiRow:hover {
-  opacity: 0.9;
-}
-
-/* Method Badge Style */
-.methodBadge {
-  font-size: 14px;
-  font-weight: 700;
-  min-width: 80px;
-  text-align: center;
-  padding: 6px 0;
-  border-radius: 3px;
-  color: #ffffff;
-  margin-right: 15px;
-  text-transform: uppercase;
-}
-
-.path {
-  flex-grow: 1;
-  font-family: monospace;
-  font-size: 15px;
-  font-weight: 600;
+.createFormContainer h3 {
+  margin-top: 0;
   color: #c9d1d9;
-  word-break: break-all;
+  font-size: 16px;
+  margin-bottom: 16px;
 }
 
-.description {
-  font-size: 13px;
-  color: #8b949e;
+.formRow {
   display: flex;
-  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.jsonRow {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.jsonCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   gap: 8px;
 }
 
-.apiName {
-    font-family: monospace;
+.jsonCol label {
+  font-size: 13px;
+  color: #8b949e;
+  font-weight: 600;
 }
 
-.lockIcon {
-    opacity: 0.6;
+.input, .select {
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  color: #c9d1d9;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
 }
 
-/* --- Color Themes based on Method --- */
-
-/* GET: Blue */
-.get {
-  background-color: rgba(97, 175, 254, 0.1); /* Light Blue bg */
-  border-color: #61affe;
-}
-.get .methodBadge {
-  background-color: #61affe;
-}
-.get .path {
-    color: #c9d1d9;
+.createActions {
+  display: flex;
+  justify-content: flex-end;
 }
 
-/* POST: Green */
-.post {
-  background-color: rgba(73, 204, 144, 0.1); /* Light Green bg */
-  border-color: #49cc90;
-}
-.post .methodBadge {
-  background-color: #49cc90;
-}
-
-/* PUT: Orange */
-.put {
-  background-color: rgba(252, 161, 48, 0.1); /* Light Orange bg */
-  border-color: #fca130;
-}
-.put .methodBadge {
-  background-color: #fca130;
+.confirmBtn {
+  background-color: #1f6feb;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
-/* DELETE: Red */
-.delete {
-  background-color: rgba(249, 62, 62, 0.1); /* Light Red bg */
-  border-color: #f93e3e;
-}
-.delete .methodBadge {
-  background-color: #f93e3e;
-}
-
-/* PATCH: Teal/Cyan */
-.patch {
-  background-color: rgba(80, 227, 194, 0.1); /* Light Teal bg */
-  border-color: #50e3c2;
-}
-.patch .methodBadge {
-  background-color: #50e3c2;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

@@ -1,0 +1,38 @@
+/* src/components/JsonEditor/JsonEditor.module.css */
+
+.editorContainer {
+  width: 100%;
+  height: 400px;
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+
+  /* 팝업이 잘리지 않도록 함 */
+  overflow: visible;
+
+  /* [수정됨] 기본 상태에서는 z-index를 낮게 유지하거나 지정하지 않음 */
+  position: relative;
+  z-index: 1;
+  transition: z-index 0s linear; /* 즉시 전환 */
+}
+
+/* [추가됨] 사용자가 에디터를 클릭하거나 내부 메뉴를 열었을 때 z-index를 최상위로 올림 */
+.editorContainer:focus-within {
+  z-index: 100;
+}
+
+/* vanilla-jsoneditor Dark Theme Overrides ... (기존 코드 유지) */
+:global(.jse-theme-dark) {
+  /* ... 기존 변수들 ... */
+  --jse-background-color: #161b22;
+  --jse-text-color: #c9d1d9;
+  --jse-key-color: #c9d1d9;
+  --jse-value-color-string: #a5d6ff;
+  --jse-value-color-number: #79c0ff;
+  --jse-value-color-boolean: #56d364;
+  --jse-value-color-null: #ff7b72;
+  --jse-delimiter-color: #8b949e;
+  --jse-edit-outline: 2px solid #58a6ff;
+
+  --jse-main-border: none;
+}

@@ -1,31 +1,85 @@
 import React, { useEffect, useState } from 'react';
-import { authApi } from '../../../api/axios'; // src/api/axios.js 경로 확인
+import { authApi } from '../../../api/axios';
+import ApiDocItem from './ApiDocItem';
+import JsonEditor from '../../../components/JsonEditor/JsonEditor'; // 생성 폼용
 import styles from './ApiDocList.module.css';
 
 const ApiDocList = ({ projectId }) => {
   const [apiList, setApiList] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Create Form State
+  const [showCreate, setShowCreate] = useState(false);
+  const [createData, setCreateData] = useState({
+    url: '',
+    http_method: 'GET',
+    description: '',
+    request_format: { },
+    response_format: { }
+  });
+
+  const fetchApiDocs = async () => {
+    try {
+      const response = await authApi.get(`/apidocs/${projectId}/`);
+      setApiList(response.data || []);
+    } catch (error) {
+      console.error("Failed to fetch API docs:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchApiDocs = async () => {
-      try {
-        // [수정됨] 사용자 요청에 따른 올바른 API 엔드포인트 적용
-        // Base URL이 '.../api'로 설정되어 있으므로 뒷부분만 작성합니다.
-        const response = await authApi.get(`/apidocs/${projectId}/`);
-
-        // 응답 샘플이 배열 형태이므로 바로 state에 저장합니다.
-        setApiList(response.data || []);
-      } catch (error) {
-        console.error("Failed to fetch API docs:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     if (projectId) {
       fetchApiDocs();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
+
+  // Create Handlers
+  const handleCreateChange = (e) => {
+    const { name, value } = e.target;
+    setCreateData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleCreateJsonChange = (field, newContent) => {
+     let value = {};
+    if (newContent.json) value = newContent.json;
+    else if (newContent.text) {
+      try { value = JSON.parse(newContent.text); } catch (e) { return; }
+    }
+    setCreateData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const submitCreate = async () => {
+    if (!createData.url) {
+      alert("URL을 입력해주세요.");
+      return;
+    }
+    try {
+      // POST 요청
+      await authApi.post(`/apidocs/${projectId}/`, createData);
+
+      // 초기화 및 목록 갱신
+      setShowCreate(false);
+      setCreateData({
+        url: '',
+        http_method: 'GET',
+        description: '',
+        request_format: {},
+        response_format: {}
+      });
+      fetchApiDocs();
+      alert("새로운 API 문서가 생성되었습니다.");
+    } catch (error) {
+      console.error("Create failed:", error);
+      alert("생성에 실패했습니다.");
+    }
+  };
+
+  const handleDeleteItem = (deletedId) => {
+    setApiList(prev => prev.filter(item => item.id !== deletedId));
+  };
 
   if (loading) return <div className={styles.loading}>Loading API documents...</div>;
 
@@ -33,32 +87,87 @@ const ApiDocList = ({ projectId }) => {
     <div className={styles.listContainer}>
       <div className={styles.listHeader}>
         <h2>API Documents</h2>
+        <button
+          className={styles.createBtn}
+          onClick={() => setShowCreate(!showCreate)}
+        >
+          {showCreate ? 'Cancel' : '+ New Endpoint'}
+        </button>
       </div>
 
+      {/* Create Form Area */}
+      {showCreate && (
+        <div className={styles.createFormContainer}>
+          <h3>Create New API Endpoint</h3>
+          <div className={styles.formRow}>
+             <select
+                name="http_method"
+                value={createData.http_method}
+                onChange={handleCreateChange}
+                className={styles.select}
+              >
+                <option value="GET">GET</option>
+                <option value="POST">POST</option>
+                <option value="PUT">PUT</option>
+                <option value="DELETE">DELETE</option>
+                <option value="PATCH">PATCH</option>
+              </select>
+              <input
+                type="text"
+                name="url"
+                placeholder="URL (e.g. /api/users)"
+                value={createData.url}
+                onChange={handleCreateChange}
+                className={styles.input}
+                style={{ flexGrow: 1 }}
+              />
+          </div>
+          <div className={styles.formRow}>
+            <input
+              type="text"
+              name="description"
+              placeholder="Description"
+              value={createData.description}
+              onChange={handleCreateChange}
+              className={styles.input}
+              style={{ width: '100%' }}
+            />
+          </div>
+
+          <div className={styles.jsonRow}>
+            <div className={styles.jsonCol}>
+              <label>Request Format</label>
+              <JsonEditor
+                content={{ json: createData.request_format }}
+                onChange={(c) => handleCreateJsonChange('request_format', c)}
+              />
+            </div>
+            <div className={styles.jsonCol}>
+              <label>Response Format</label>
+              <JsonEditor
+                content={{ json: createData.response_format }}
+                onChange={(c) => handleCreateJsonChange('response_format', c)}
+              />
+            </div>
+          </div>
+
+          <div className={styles.createActions}>
+            <button onClick={submitCreate} className={styles.confirmBtn}>Create API</button>
+          </div>
+        </div>
+      )}
+
+      {/* API List */}
       {apiList.length === 0 ? (
         <div className={styles.emptyState}>등록된 API 문서가 없습니다.</div>
       ) : (
         <div className={styles.apiStack}>
           {apiList.map((api) => (
-            <div key={api.id} className={`${styles.apiRow} ${styles[api.http_method.toLowerCase()]}`}>
-              <div className={styles.methodBadge}>
-                {api.http_method}
-              </div>
-              <div className={styles.path}>
-                {api.url}
-              </div>
-              <div className={styles.description}>
-                {/* API 응답에 name/description 필드가 없으므로
-                  URL의 마지막 경로를 UI용 임시 이름으로 파싱하여 표시
-                */}
-                <span className={styles.apiName}>
-                    {api.url.split('/').filter(Boolean).pop() || 'endpoint'}
-                </span>
-                <svg className={styles.lockIcon} viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-                    <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-9-2c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/>
-                </svg>
-              </div>
-            </div>
+            <ApiDocItem
+              key={api.id}
+              apiSummary={api}
+              onDelete={handleDeleteItem}
+            />
           ))}
         </div>
       )}

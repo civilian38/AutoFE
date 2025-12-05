@@ -1,0 +1,233 @@
+.itemContainer {
+  border: 1px solid rgba(48, 54, 61, 0.5);
+  border-radius: 6px;
+  background-color: #0d1117;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.headerRow:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.methodBadge {
+  font-weight: 700;
+  font-size: 14px;
+  width: 80px;
+  text-align: center;
+  margin-right: 16px;
+  padding: 4px 0;
+  border-radius: 4px;
+  color: #fff;
+}
+
+.path {
+  flex-grow: 1;
+  font-family: monospace;
+  font-size: 15px;
+  color: #c9d1d9;
+  font-weight: 600;
+}
+
+.description {
+  color: #8b949e;
+  font-size: 13px;
+  margin-right: 16px;
+}
+
+/* Expand Button (Chevron) Rotation */
+.expandBtn {
+  background: none;
+  border: none;
+  color: #8b949e;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.expandBtn.open {
+  transform: rotate(-90deg); /* < 모양을 아래쪽(v) 느낌으로 회전 */
+}
+
+/* Detail Body */
+.detailBody {
+  padding: 20px;
+  border-top: 1px solid #30363d;
+  background-color: #0d1117;
+}
+
+.formGrid {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.inputGroup label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #8b949e;
+}
+
+.input, .select, .textarea {
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  color: #c9d1d9;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.input:focus, .select:focus, .textarea:focus {
+  border-color: #58a6ff;
+  outline: none;
+}
+
+.jsonSection {
+  margin-bottom: 24px;
+}
+
+.jsonSection h3 {
+  font-size: 14px;
+  color: #c9d1d9;
+  margin-bottom: 8px;
+  border-left: 3px solid #58a6ff;
+  padding-left: 8px;
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  border-top: 1px solid #30363d;
+  padding-top: 16px;
+}
+
+.saveBtn {
+  background-color: #238636;
+  color: #ffffff;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.deleteBtn {
+  background-color: transparent;
+  color: #da3633;
+  border: 1px solid #da3633;
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.controlsHeader {
+  display: flex;
+  justify-content: flex-end; /* 우측 정렬 */
+  gap: 12px; /* 버튼 사이 간격 */
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #30363d;
+  align-items: center;
+}
+
+.editModeBtn {
+  background-color: #1f6feb;
+  color: white;
+  border: 1px solid rgba(240, 246, 252, 0.1);
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.editModeBtn:hover {
+  background-color: #388bfd;
+}
+
+.cancelBtn {
+  background-color: #30363d;
+  color: #c9d1d9;
+  border: 1px solid rgba(240, 246, 252, 0.1);
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.saveBtn {
+  background-color: #238636;
+  color: #ffffff;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.deleteBtn {
+  background-color: transparent;
+  color: #da3633;
+  border: 1px solid #da3633;
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.editControls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.editLabel {
+  font-size: 12px;
+  font-weight: bold;
+  color: #f78166; /* Orange to indicate editing */
+  text-transform: uppercase;
+  animation: pulse 2s infinite;
+}
+
+/* Read Only Text Style */
+.readOnlyText {
+  padding: 8px 12px;
+  color: #c9d1d9;
+  font-size: 14px;
+  background-color: transparent;
+  border: 1px solid transparent;
+  /* 입력창과 높이 맞추기 위해 투명 보더 사용 */
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* Colors by Method */
+.get .methodBadge { background-color: #61affe; }
+.post .methodBadge { background-color: #49cc90; }
+.put .methodBadge { background-color: #fca130; }
+.delete .methodBadge { background-color: #f93e3e; }
+.patch .methodBadge { background-color: #50e3c2; }
