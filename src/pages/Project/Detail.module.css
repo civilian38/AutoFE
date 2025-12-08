@@ -11,6 +11,25 @@
   width: 100%;
 }
 
+.loadingContainer, .errorContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+    color: #8b949e;
+}
+
+.backBtn {
+    margin-top: 16px;
+    background-color: #21262d;
+    border: 1px solid #30363d;
+    color: #58a6ff;
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
 .header {
   width: 100%;
   max-width: 1024px;
@@ -22,7 +41,9 @@
 .breadcrumb {
   font-size: 14px;
   color: #8b949e;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
 }
 
 .backLink {
@@ -38,14 +59,99 @@
   margin: 0 8px;
 }
 
+.currentTitle {
+    font-weight: 600;
+    color: #c9d1d9;
+}
+
+.visibilityBadge {
+    margin-left: 8px;
+    border: 1px solid #30363d;
+    border-radius: 2em;
+    padding: 0 7px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #8b949e;
+    line-height: 18px;
+}
+
+.headerMain {
+    margin-bottom: 12px;
+}
+
 .projectTitle {
-  font-size: 24px;
+  font-size: 32px;
   font-weight: 600;
-  margin: 0;
+  margin: 0 0 8px 0;
   color: #c9d1d9;
 }
 
-/* 탭 네비게이션 (GitHub Style) */
+.projectMeta {
+    font-size: 13px;
+    color: #8b949e;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap; /* 메타 정보가 많으면 줄바꿈 */
+}
+
+.metaItem strong {
+    color: #c9d1d9;
+    font-weight: 600;
+}
+
+.metaSeparator {
+    color: #30363d;
+}
+
+.link {
+    color: #58a6ff;
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+/* [New] Toggle Button Style */
+.toggleDescBtn {
+    background: none;
+    border: none;
+    color: #58a6ff;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: none;
+}
+
+.toggleDescBtn:hover {
+    text-decoration: underline;
+}
+
+/* [New] Description Container */
+.descriptionContainer {
+    margin-top: 16px;
+    padding: 16px;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    background-color: #161b22;
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.description {
+    font-size: 14px;
+    color: #c9d1d9;
+    margin: 0;
+    line-height: 1.6;
+    white-space: pre-wrap; /* 줄바꿈 보존 */
+}
+
+/* 탭 네비게이션 */
 .tabsNav {
   width: 100%;
   max-width: 1024px;
@@ -79,7 +185,7 @@
 .tabItem.active {
   font-weight: 600;
   color: #c9d1d9;
-  border-bottom-color: #f78166; /* GitHub Orange accent for active tab */
+  border-bottom-color: #f78166;
 }
 
 .contentArea {

@@ -1,26 +1,67 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { authApi } from '../../api/axios';
 import ApiDocList from './components/ApiDocList';
 import RequirementsView from './components/RequirementsView';
-import ReactFilesView from './components/ReactFilesView'; // Import 추가
+import ReactFilesView from './components/ReactFilesView';
 import styles from './Detail.module.css';
 
 const ProjectDetail = () => {
   const { projectId } = useParams();
   const navigate = useNavigate();
 
-  // 현재 활성화된 탭 State (기본값: api_docs)
+  // 탭 및 데이터 상태
   const [activeTab, setActiveTab] = useState('api_docs');
+  const [projectInfo, setProjectInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // 프로젝트 기본 정보 (추후 API 연동 필요)
-  const [projectInfo, setProjectInfo] = useState({
-    name: `Project #${projectId}`,
-    description: 'Loading project details...'
-  });
+  // [New] 설명글 토글 상태
+  const [showDescription, setShowDescription] = useState(false);
+
+  useEffect(() => {
+    const fetchProjectDetail = async () => {
+      try {
+        setLoading(true);
+        const response = await authApi.get(`/project/${projectId}/`);
+        setProjectInfo(response.data);
+      } catch (err) {
+        console.error("Failed to fetch project detail:", err);
+        setError("프로젝트 정보를 불러오는데 실패했습니다.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (projectId) {
+      fetchProjectDetail();
+    }
+  }, [projectId]);
 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
   };
+
+  const toggleDescription = () => {
+    setShowDescription((prev) => !prev);
+  };
+
+  if (loading) {
+    return (
+      <div className={styles.loadingContainer}>
+        <div className={styles.spinner}>Loading Project...</div>
+      </div>
+    );
+  }
+
+  if (error || !projectInfo) {
+    return (
+      <div className={styles.errorContainer}>
+        <p>{error || "Project not found."}</p>
+        <button className={styles.backBtn} onClick={() => navigate('/')}>Go to Home</button>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.pageContainer}>
@@ -30,8 +71,48 @@ const ProjectDetail = () => {
           <span className={styles.backLink} onClick={() => navigate('/')}>Projects</span>
           <span className={styles.separator}>/</span>
           <span className={styles.currentTitle}>{projectInfo.name}</span>
+          <span className={styles.visibilityBadge}>Private</span>
         </div>
-        <h1 className={styles.projectTitle}>{projectInfo.name}</h1>
+
+        <div className={styles.headerMain}>
+            <h1 className={styles.projectTitle}>{projectInfo.name}</h1>
+
+            <div className={styles.projectMeta}>
+                {projectInfo.created_by && (
+                    <span className={styles.metaItem}>
+                        Created by <strong>{projectInfo.created_by.nickname || projectInfo.created_by.username}</strong>
+                    </span>
+                )}
+                <span className={styles.metaSeparator}>•</span>
+                <span className={styles.metaItem}>
+                    Base URL: <a href={projectInfo.base_url} target="_blank" rel="noopener noreferrer" className={styles.link}>{projectInfo.base_url}</a>
+                </span>
+                <span className={styles.metaSeparator}>•</span>
+                <span className={styles.metaItem}>
+                    {new Date(projectInfo.created_at).toLocaleDateString()}
+                </span>
+
+                {/* [New] Description Toggle Button */}
+                {projectInfo.description && (
+                  <>
+                    <span className={styles.metaSeparator}>•</span>
+                    <button
+                      className={styles.toggleDescBtn}
+                      onClick={toggleDescription}
+                    >
+                      {showDescription ? 'Hide description' : 'Show description'}
+                    </button>
+                  </>
+                )}
+            </div>
+        </div>
+
+        {/* [New] Conditional Rendering for Description */}
+        {showDescription && projectInfo.description && (
+            <div className={styles.descriptionContainer}>
+                <p className={styles.description}>{projectInfo.description}</p>
+            </div>
+        )}
       </header>
 
       {/* Navigation Tabs */}
