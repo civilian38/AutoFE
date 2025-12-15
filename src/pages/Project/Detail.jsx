@@ -4,6 +4,7 @@ import { authApi } from '../../api/axios';
 import ApiDocList from './components/ApiDocList';
 import RequirementsView from './components/RequirementsView';
 import ReactFilesView from './components/ReactFilesView';
+import DiscussionView from './components/DiscussionView'; // [Import New Component]
 import styles from './Detail.module.css';
 
 const ProjectDetail = () => {
@@ -16,7 +17,7 @@ const ProjectDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // [New] 설명글 토글 상태
+  // 설명글 토글 상태
   const [showDescription, setShowDescription] = useState(false);
 
   useEffect(() => {
@@ -75,43 +76,43 @@ const ProjectDetail = () => {
         </div>
 
         <div className={styles.headerMain}>
-            <h1 className={styles.projectTitle}>{projectInfo.name}</h1>
+          <h1 className={styles.projectTitle}>{projectInfo.name}</h1>
 
-            <div className={styles.projectMeta}>
-                {projectInfo.created_by && (
-                    <span className={styles.metaItem}>
-                        Created by <strong>{projectInfo.created_by.nickname || projectInfo.created_by.username}</strong>
-                    </span>
-                )}
-                <span className={styles.metaSeparator}>•</span>
-                <span className={styles.metaItem}>
-                    Base URL: <a href={projectInfo.base_url} target="_blank" rel="noopener noreferrer" className={styles.link}>{projectInfo.base_url}</a>
-                </span>
-                <span className={styles.metaSeparator}>•</span>
-                <span className={styles.metaItem}>
-                    {new Date(projectInfo.created_at).toLocaleDateString()}
-                </span>
+          <div className={styles.projectMeta}>
+            {projectInfo.created_by && (
+              <span className={styles.metaItem}>
+                Created by <strong>{projectInfo.created_by.nickname || projectInfo.created_by.username}</strong>
+              </span>
+            )}
+            <span className={styles.metaSeparator}>•</span>
+            <span className={styles.metaItem}>
+              Base URL: <a href={projectInfo.base_url} target="_blank" rel="noopener noreferrer" className={styles.link}>{projectInfo.base_url}</a>
+            </span>
+            <span className={styles.metaSeparator}>•</span>
+            <span className={styles.metaItem}>
+              {new Date(projectInfo.created_at).toLocaleDateString()}
+            </span>
 
-                {/* [New] Description Toggle Button */}
-                {projectInfo.description && (
-                  <>
-                    <span className={styles.metaSeparator}>•</span>
-                    <button
-                      className={styles.toggleDescBtn}
-                      onClick={toggleDescription}
-                    >
-                      {showDescription ? 'Hide description' : 'Show description'}
-                    </button>
-                  </>
-                )}
-            </div>
+            {/* Description Toggle Button */}
+            {projectInfo.description && (
+              <>
+                <span className={styles.metaSeparator}>•</span>
+                <button
+                  className={styles.toggleDescBtn}
+                  onClick={toggleDescription}
+                >
+                  {showDescription ? 'Hide description' : 'Show description'}
+                </button>
+              </>
+            )}
+          </div>
         </div>
 
-        {/* [New] Conditional Rendering for Description */}
+        {/* Conditional Rendering for Description */}
         {showDescription && projectInfo.description && (
-            <div className={styles.descriptionContainer}>
-                <p className={styles.description}>{projectInfo.description}</p>
-            </div>
+          <div className={styles.descriptionContainer}>
+            <p className={styles.description}>{projectInfo.description}</p>
+          </div>
         )}
       </header>
 
@@ -148,7 +149,8 @@ const ProjectDetail = () => {
         {activeTab === 'api_docs' && <ApiDocList projectId={projectId} />}
         {activeTab === 'requirements' && <RequirementsView projectId={projectId} />}
         {activeTab === 'react_files' && <ReactFilesView projectId={projectId} />}
-        {activeTab === 'discussion' && <div className={styles.placeholder}>Discussion 페이지 (개발 예정)</div>}
+        {/* [Replaced Placeholder with Component] */}
+        {activeTab === 'discussion' && <DiscussionView projectId={projectId} />}
       </main>
     </div>
   );
