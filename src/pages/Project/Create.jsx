@@ -7,7 +7,8 @@ const Create = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
-    base_url: '', // [New] API 변경으로 추가된 필드
+    base_web_url: '', // [Modified] base_url -> base_web_url
+    base_api_url: '', // [New] Added field
     description: ''
   });
   const [error, setError] = useState(null);
@@ -33,16 +34,21 @@ const Create = () => {
       return;
     }
 
-    // base_url이 필수라고 가정하고 검사 (필수가 아니라면 이 부분 제거 가능)
-    if (!formData.base_url.trim()) {
-        setError("Base URL을 입력해주세요.");
-        setIsSubmitting(false);
-        return;
+    if (!formData.base_web_url.trim()) {
+      setError("Base Web URL을 입력해주세요.");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!formData.base_api_url.trim()) {
+      setError("Base API URL을 입력해주세요.");
+      setIsSubmitting(false);
+      return;
     }
 
     try {
       // API 문서에 명시된 Endpoint로 POST 요청
-      // Payload: { name, base_url, description }
+      // Payload: { name, base_web_url, base_api_url, description }
       const response = await authApi.post('/project/', formData);
 
       // 생성된 프로젝트의 ID를 받아 상세 페이지로 이동
@@ -53,15 +59,13 @@ const Create = () => {
       console.error("Project creation failed:", err);
       // DRF 에러 응답 처리
       if (err.response && err.response.data) {
-        // 에러 메시지가 객체나 배열로 올 경우를 대비한 단순화 처리
         const serverError = err.response.data;
         if (typeof serverError === 'object') {
-             // 첫 번째 에러 메시지만 추출하여 표시
-            const firstKey = Object.keys(serverError)[0];
-            const msg = Array.isArray(serverError[firstKey]) ? serverError[firstKey][0] : serverError[firstKey];
-            setError(`${firstKey}: ${msg}`);
+          const firstKey = Object.keys(serverError)[0];
+          const msg = Array.isArray(serverError[firstKey]) ? serverError[firstKey][0] : serverError[firstKey];
+          setError(`${firstKey}: ${msg}`);
         } else {
-            setError("프로젝트 생성 중 오류가 발생했습니다. 입력을 확인해주세요.");
+          setError("프로젝트 생성 중 오류가 발생했습니다. 입력을 확인해주세요.");
         }
       } else {
         setError("서버와 통신할 수 없습니다.");
@@ -102,23 +106,43 @@ const Create = () => {
             </p>
           </div>
 
-          {/* [New] Base URL Input */}
+          {/* [Modified] Base Web URL Input */}
           <div className={styles.inputGroup}>
-            <label htmlFor="base_url" className={styles.label}>
-              Base URL <span className={styles.required}>*</span>
+            <label htmlFor="base_web_url" className={styles.label}>
+              Base Web URL <span className={styles.required}>*</span>
             </label>
             <input
               type="text"
-              id="base_url"
-              name="base_url"
+              id="base_web_url"
+              name="base_web_url"
               className={styles.input}
-              value={formData.base_url}
+              value={formData.base_web_url}
               onChange={handleChange}
-              placeholder="http://example.com"
+              placeholder="https://my-web-service.com"
               autoComplete="off"
             />
             <p className={styles.helpText}>
-              API 요청을 보낼 백엔드 서버의 기본 주소입니다.
+              프론트엔드 서비스가 배포될(또는 실행 중인) 웹 URL입니다.
+            </p>
+          </div>
+
+          {/* [New] Base API URL Input */}
+          <div className={styles.inputGroup}>
+            <label htmlFor="base_api_url" className={styles.label}>
+              Base API URL <span className={styles.required}>*</span>
+            </label>
+            <input
+              type="text"
+              id="base_api_url"
+              name="base_api_url"
+              className={styles.input}
+              value={formData.base_api_url}
+              onChange={handleChange}
+              placeholder="https://api.my-service.com"
+              autoComplete="off"
+            />
+            <p className={styles.helpText}>
+              백엔드 API 서버의 기본 주소입니다.
             </p>
           </div>
 

@@ -4,7 +4,7 @@ import { authApi } from '../../api/axios';
 import ApiDocList from './components/ApiDocList';
 import RequirementsView from './components/RequirementsView';
 import ReactFilesView from './components/ReactFilesView';
-import DiscussionView from './components/DiscussionView'; // [Import New Component]
+import DiscussionView from './components/DiscussionView';
 import styles from './Detail.module.css';
 
 const ProjectDetail = () => {
@@ -84,10 +84,21 @@ const ProjectDetail = () => {
                 Created by <strong>{projectInfo.created_by.nickname || projectInfo.created_by.username}</strong>
               </span>
             )}
+
             <span className={styles.metaSeparator}>•</span>
+
+            {/* [Modified] Base Web URL */}
             <span className={styles.metaItem}>
-              Base URL: <a href={projectInfo.base_url} target="_blank" rel="noopener noreferrer" className={styles.link}>{projectInfo.base_url}</a>
+              Web: <a href={projectInfo.base_web_url} target="_blank" rel="noopener noreferrer" className={styles.link}>{projectInfo.base_web_url}</a>
             </span>
+
+            <span className={styles.metaSeparator}>•</span>
+
+            {/* [New] Base API URL */}
+            <span className={styles.metaItem}>
+              API: <a href={projectInfo.base_api_url} target="_blank" rel="noopener noreferrer" className={styles.link}>{projectInfo.base_api_url}</a>
+            </span>
+
             <span className={styles.metaSeparator}>•</span>
             <span className={styles.metaItem}>
               {new Date(projectInfo.created_at).toLocaleDateString()}
@@ -149,7 +160,6 @@ const ProjectDetail = () => {
         {activeTab === 'api_docs' && <ApiDocList projectId={projectId} />}
         {activeTab === 'requirements' && <RequirementsView projectId={projectId} />}
         {activeTab === 'react_files' && <ReactFilesView projectId={projectId} />}
-        {/* [Replaced Placeholder with Component] */}
         {activeTab === 'discussion' && <DiscussionView projectId={projectId} />}
       </main>
     </div>
