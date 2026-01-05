@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+// src/pages/Project/components/FileTreeView.jsx
+import React, { useState } from 'react';
 import styles from './ReactFilesView.module.css';
 
 // 재귀적으로 렌더링되는 폴더 아이템
@@ -17,12 +18,13 @@ const FolderItem = ({ folder, onSelectFile, selectedFileId, onContextMenu, depth
   };
 
   return (
-    <div className={styles.treeNode} style={{ paddingLeft: `${depth * 12}px` }}>
+    <div className={styles.treeNode}>
       {/* 폴더 렌더링 */}
       <div
         className={styles.folderRow}
         onClick={toggleFolder}
         onContextMenu={(e) => handleRightClick(e, 'folder', folder)}
+        style={{ paddingLeft: `${depth * 12 + 8}px` }}
       >
         <span className={styles.folderIcon}>{isOpen ? '📂' : '📁'}</span>
         <span className={styles.folderName}>{folder.name}</span>
@@ -48,15 +50,18 @@ const FolderItem = ({ folder, onSelectFile, selectedFileId, onContextMenu, depth
               className={`${styles.fileRow} ${selectedFileId === file.id ? styles.selectedFile : ''}`}
               onClick={() => onSelectFile(file.id)}
               onContextMenu={(e) => handleRightClick(e, 'file', file)}
-              style={{ paddingLeft: `${(depth + 1) * 12}px` }}
+              style={{ paddingLeft: `${(depth + 1) * 12 + 8}px` }}
             >
               <span className={styles.fileIcon}>📄</span>
-              <span className={styles.fileName}>{file.name}</span>
+              {/* [MODIFIED] has_draft가 true이면 파란색 스타일 적용 */}
+              <span className={`${styles.fileName} ${file.has_draft ? styles.hasDraftText : ''}`}>
+                {file.name}
+              </span>
             </div>
           ))}
 
           {(!folder.subfolders?.length && !folder.files?.length) && (
-            <div className={styles.emptyFolder} style={{ paddingLeft: `${(depth + 1) * 12}px` }}>
+            <div className={styles.emptyFolder} style={{ paddingLeft: `${(depth + 1) * 12 + 8}px` }}>
               (Empty)
             </div>
           )}

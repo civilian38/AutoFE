@@ -1,3 +1,4 @@
+// src/api/fileService.js
 import { authApi } from './axios';
 
 // ... (기존 createFolder, createFile 등은 유지) ...
@@ -41,12 +42,19 @@ export const updateFile = async (fileId, data) => {
   return response.data;
 };
 
-// [NEW] 파일 내용 수정 (PATCH)
+// 파일 내용 수정 (PATCH)
 export const patchFileContent = async (fileId, content) => {
   const response = await authApi.patch(`/frontfiles/projectfile/${fileId}/`, {
     content: content
   });
   return response.data;
+};
+
+// [NEW] Draft 내용을 본문에 반영 (POST)
+export const applyFileDraft = async (fileId) => {
+    // URL: /api/frontfiles/projectfile/{id}/draft
+    const response = await authApi.post(`/frontfiles/projectfile/${fileId}/draft`);
+    return response.data;
 };
 
 export const deleteFolder = async (folderId) => {
